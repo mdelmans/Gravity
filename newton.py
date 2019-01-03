@@ -11,7 +11,6 @@ BLACK = (  0,  0,  0)
 DBLUE = (  0,  0, 50)
 
 import pygame
-#from scipy import array, sqrt
 from numpy import *
 from pygame.locals import *
 import sys
@@ -23,12 +22,17 @@ class Particle:
         self.velocity = array([0,0])
         self.density = density
         self.radius = int(round((self.mass / self.density)**(1/3)))
+        self.path = []
         
         
-    def draw(self,CANVAS):
+    def draw(self, CANVAS, drawPath = False):
         self.radius = int(round(self.mass / self.density)**(1/3))
         color = int(round(255 - self.density * 255))
         pygame.draw.circle(CANVAS, (color,color,color),(int(round(self.pos[0])),int(round(self.pos[1]))), self.radius, 0)
+
+        if drawPath:
+            if len( self.path ) > 1:
+                pygame.draw.aalines(CANVAS, (color, color, color), False, self.path, 1)
 
 G = 0.5
 def distance(particle1,particle2):
